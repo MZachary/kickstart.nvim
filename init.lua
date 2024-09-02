@@ -224,7 +224,8 @@ vim.opt.rtp:prepend(lazypath)
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
-require('lazy').setup({
+require('lazy').setup(
+  {
     -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -238,7 +239,7 @@ require('lazy').setup({
     --    require('Comment').setup({})
 
     -- "gc" to comment visual regions/lines
-    { 'numToStr/Comment.nvim',    opts = {} },
+    { 'numToStr/Comment.nvim', opts = {} },
 
     -- Here is a more advanced example where we pass configuration
     -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
@@ -273,27 +274,58 @@ require('lazy').setup({
     -- after the plugin has been loaded:
     --  config = function() ... end
 
-    {                   -- Useful plugin to show you pending keybinds.
+    { -- Useful plugin to show you pending keybinds.
       'folke/which-key.nvim',
       event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-      config = function() -- This is the function that runs, AFTER loading
-        require('which-key').setup()
+      opts = {
+        icons = {
+          -- set icon mappings to true if you have a Nerd Font
+          mappings = vim.g.have_nerd_font,
+          -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+          -- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
+          keys = vim.g.have_nerd_font and {} or {
+            Up = '<Up> ',
+            Down = '<Down> ',
+            Left = '<Left> ',
+            Right = '<Right> ',
+            C = '<C-…> ',
+            M = '<M-…> ',
+            D = '<D-…> ',
+            S = '<S-…> ',
+            CR = '<CR> ',
+            Esc = '<Esc> ',
+            ScrollWheelDown = '<ScrollWheelDown> ',
+            ScrollWheelUp = '<ScrollWheelUp> ',
+            NL = '<NL> ',
+            BS = '<BS> ',
+            Space = '<Space> ',
+            Tab = '<Tab> ',
+            F1 = '<F1>',
+            F2 = '<F2>',
+            F3 = '<F3>',
+            F4 = '<F4>',
+            F5 = '<F5>',
+            F6 = '<F6>',
+            F7 = '<F7>',
+            F8 = '<F8>',
+            F9 = '<F9>',
+            F10 = '<F10>',
+            F11 = '<F11>',
+            F12 = '<F12>',
+          },
+        },
 
         -- Document existing key chains
-        require('which-key').register {
-          ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-          ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-          ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-          ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-          ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-          ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-          ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-        }
-        -- visual mode
-        require('which-key').register({
-          ['<leader>h'] = { 'Git [H]unk' },
-        }, { mode = 'v' })
-      end,
+        spec = {
+          { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+          { '<leader>d', group = '[D]ocument' },
+          { '<leader>r', group = '[R]ename' },
+          { '<leader>s', group = '[S]earch' },
+          { '<leader>w', group = '[W]orkspace' },
+          { '<leader>t', group = '[T]oggle' },
+          { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        },
+      },
     },
 
     -- NOTE: Plugins can specify dependencies.
@@ -325,7 +357,7 @@ require('lazy').setup({
         { 'nvim-telescope/telescope-ui-select.nvim' },
 
         -- Useful for getting pretty icons, but requires a Nerd Font.
-        { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+        { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
       },
       config = function()
         -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -418,11 +450,11 @@ require('lazy').setup({
 
         -- Useful status updates for LSP.
         -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-        { 'j-hui/fidget.nvim',       opts = {} },
+        { 'j-hui/fidget.nvim', opts = {} },
 
         -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
         -- used for completion, annotations and signatures of Neovim apis
-        { 'folke/neodev.nvim',       opts = {} },
+        { 'folke/neodev.nvim', opts = {} },
       },
       config = function()
         -- Brief aside: **What is LSP?**
@@ -567,7 +599,7 @@ require('lazy').setup({
         local servers = {
           -- clangd = {},
           gopls = {},
-          pyright = {},
+          -- pyright = {},
           ruff = {},
           -- rust_analyzer = {},
           -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -860,7 +892,7 @@ require('lazy').setup({
         -- i added this line b/c tree sitter was calling the wrong compiler
         -- https://github.com/nvim-treesitter/nvim-treesitter/issues/2383
         -- weirdly, this line didnt work, but setting env variable CC=gcc did
-        require 'nvim-treesitter.install'.compilers = { "gcc" }
+        require('nvim-treesitter.install').compilers = { 'gcc' }
 
         -- There are additional nvim-treesitter modules that you can use to interact
         -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -872,29 +904,29 @@ require('lazy').setup({
     },
     { 'ThePrimeagen/vim-be-good' },
     {
-      "max397574/better-escape.nvim",
+      'max397574/better-escape.nvim',
       config = function()
-        require("better_escape").setup()
+        require('better_escape').setup()
       end,
     },
     {
-      "ThePrimeagen/harpoon",
-      branch = "harpoon2",
-      dependencies = {"nvim-lua/plenary.nvim" },
+      'ThePrimeagen/harpoon',
+      branch = 'harpoon2',
+      dependencies = { 'nvim-lua/plenary.nvim' },
     },
     {
-      "rbong/vim-flog",
+      'rbong/vim-flog',
       lazy = true,
-      cmd = { "Flog", "Flogsplit", "Floggit" },
+      cmd = { 'Flog', 'Flogsplit', 'Floggit' },
       dependencies = {
-      "tpope/vim-fugitive",
+        'tpope/vim-fugitive',
       },
     },
     {
-      "epwalsh/obsidian.nvim",
-      version = "*", -- recommended, use latest release instead of latest commit
+      'epwalsh/obsidian.nvim',
+      version = '*', -- recommended, use latest release instead of latest commit
       -- lazy = true,
-      ft = "markdown",
+      ft = 'markdown',
       -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
       -- event = {
       --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
@@ -904,7 +936,7 @@ require('lazy').setup({
       -- },
       dependencies = {
         -- Required.
-        "nvim-lua/plenary.nvim",
+        'nvim-lua/plenary.nvim',
 
         -- see below for full list of optional dependencies 👇
       },
@@ -917,8 +949,8 @@ require('lazy').setup({
         -- current markdown file being edited.
         workspaces = {
           {
-            name = "work",
-            path = "~/vaults/work",
+            name = 'work',
+            path = '~/vaults/work',
           },
         },
       }, --delete
@@ -1253,57 +1285,64 @@ require('lazy').setup({
         lazy = '💤 ',
       },
     },
-  })
+  }
+)
 
+vim.api.nvim_create_user_command('RuffSort', function()
+  local file_name = vim.fn.expand '%:p'
+  local command = 'ruff check --select I --fix ' .. file_name
+  vim.cmd('!' .. command)
+end, {})
 
-vim.api.nvim_create_user_command(
-  'RuffSort',
-  function()
-    local file_name = vim.fn.expand('%:p')
-    local command = 'ruff check --select I --fix ' .. file_name
-    vim.cmd('!' .. command)
-  end,
-  {})
-
-local harpoon = require("harpoon")
+local harpoon = require 'harpoon'
 harpoon:setup()
 
 -- basic telescope configuration
-local conf = require("telescope.config").values
+local conf = require('telescope.config').values
 local function toggle_telescope(harpoon_files)
-    local file_paths = {}
-    for _, item in ipairs(harpoon_files.items) do
-        table.insert(file_paths, item.value)
-    end
+  local file_paths = {}
+  for _, item in ipairs(harpoon_files.items) do
+    table.insert(file_paths, item.value)
+  end
 
-    require("telescope.pickers").new({}, {
-        prompt_title = "Harpoon",
-        finder = require("telescope.finders").new_table({
-            results = file_paths,
-        }),
-        previewer = conf.file_previewer({}),
-        sorter = conf.generic_sorter({}),
-    }):find()
+  require('telescope.pickers')
+    .new({}, {
+      prompt_title = 'Harpoon',
+      finder = require('telescope.finders').new_table {
+        results = file_paths,
+      },
+      previewer = conf.file_previewer {},
+      sorter = conf.generic_sorter {},
+    })
+    :find()
 end
 
-vim.keymap.set("n", "<leader>I", function() toggle_telescope(harpoon:list()) end,
-    { desc = "Open harpoon window" })
-vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
-  { desc = "add file to harpoon" })
-vim.keymap.set("n", "<leader>H", function() harpoon:list():select(1) end,
-  { desc = "harpoon select 1" })
-vim.keymap.set("n", "<leader>J", function() harpoon:list():select(2) end,
-  { desc = "harpoon select 2" })
-vim.keymap.set("n", "<leader>K", function() harpoon:list():select(3) end,
-  { desc = "harpoon select 3" })
-vim.keymap.set("n", "<leader>L", function() harpoon:list():select(4) end,
-  { desc = "harpoon select 4" })
+vim.keymap.set('n', '<leader>I', function()
+  toggle_telescope(harpoon:list())
+end, { desc = 'Open harpoon window' })
+vim.keymap.set('n', '<leader>a', function()
+  harpoon:list():add()
+end, { desc = 'add file to harpoon' })
+vim.keymap.set('n', '<leader>H', function()
+  harpoon:list():select(1)
+end, { desc = 'harpoon select 1' })
+vim.keymap.set('n', '<leader>J', function()
+  harpoon:list():select(2)
+end, { desc = 'harpoon select 2' })
+vim.keymap.set('n', '<leader>K', function()
+  harpoon:list():select(3)
+end, { desc = 'harpoon select 3' })
+vim.keymap.set('n', '<leader>L', function()
+  harpoon:list():select(4)
+end, { desc = 'harpoon select 4' })
 
 -- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set("n", "<leader>P", function() harpoon:list():prev() end,
-  { desc = "harpoon previous list" })
-vim.keymap.set("n", "<leader>N", function() harpoon:list():next() end,
-  { desc = "harpoon next list" })
+vim.keymap.set('n', '<leader>P', function()
+  harpoon:list():prev()
+end, { desc = 'harpoon previous list' })
+vim.keymap.set('n', '<leader>N', function()
+  harpoon:list():next()
+end, { desc = 'harpoon next list' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
