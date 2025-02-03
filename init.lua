@@ -622,9 +622,10 @@ require('lazy').setup({
             basedpyright = {
               -- Ignore all files for analysis to exclusively use Ruff for linting
               -- this worked for pyright, but it breaks basedpyright type checking
-              -- analysis = {
-              --   ignore = { '*' },
-              -- },
+              analysis = {
+                --   ignore = { '*' },
+                typeCheckingMode = 'standard',
+              },
               -- Using Ruff's import organizer
               disableOrganizeImports = true,
             },
