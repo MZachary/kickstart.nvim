@@ -24,6 +24,9 @@ return {
     end
     local harpoon = require 'harpoon'
     harpoon:setup()
+    vim.keymap.set("n", "<leader>A", function()
+      harpoon:list():remove()
+    end, { desc = 'Remove current buffer from harpoon list'})
     vim.keymap.set('n', '<leader>I', function()
       toggle_telescope(harpoon:list())
     end, { desc = 'Open harpoon window' })

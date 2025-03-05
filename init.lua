@@ -237,14 +237,14 @@ require('lazy').setup({
   {
     'tpope/vim-sleuth',
     -- ai helped me write this to make go tabs so much smaller than 8
-    config = function()
-      vim.cmd [[
-        augroup go settings
-          autocmd!
-          autocmd FileType go setlocal tabstop=3 shiftwidth=3 softtabstop=3
-        augroup END
-      ]]
-    end,
+    -- config = function()
+    --   vim.cmd [[
+    --     augroup go settings
+    --       autocmd!
+    --       autocmd FileType go setlocal tabstop=3 shiftwidth=3 softtabstop=3
+    --     augroup END
+    --   ]]
+    -- end,
   }, -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
@@ -623,15 +623,26 @@ require('lazy').setup({
               -- Ignore all files for analysis to exclusively use Ruff for linting
               -- this worked for pyright, but it breaks basedpyright type checking
               analysis = {
-                --   ignore = { '*' },
-                typeCheckingMode = 'standard',
+                  ignore = { '*' },
+                -- typeCheckingMode = 'off',
               },
               -- Using Ruff's import organizer
               disableOrganizeImports = true,
             },
           },
         },
-        ruff = {},
+        ruff = {
+          init_options = {
+            settings = {
+              lint = {
+                enable = false
+              }
+            }
+          }
+        }, 
+        -- I dont really understand why, but ruff as lsp wasnt working right and instead im using it as a linter
+        -- it wasnt really doing lsp things (hence basedpyright) and then with linter + lsp it was double errors, and the
+        -- import checker also wasnt working right
         -- ruff_lsp = {},
         -- typos_lsp = {},
         -- typos = {},
@@ -976,7 +987,7 @@ require('lazy').setup({
   --
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
